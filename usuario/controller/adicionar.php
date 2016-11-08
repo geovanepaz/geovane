@@ -8,13 +8,13 @@ $senha = 'senha';
 
 try {
 
-    $conexao = Conexao::getInstance();
+    //onexao = Conexao::getInstance();
     $usuario = new Usuario();
     $usuario->setNome($nome);
     $usuario->setSenha($senha);
     $usuario->setEmail($email);
 
-    $dao = new DAOUsuario($conexao);
+    $dao = new DAOUsuario();
     $retorno = $dao->adicionar($usuario);
     var_dump($retorno);
 
