@@ -2,20 +2,17 @@
 require_once '../model/classes/Usuario.php';
 require_once '../model/DAO/DAOUsuario.php';
 require_once '../model/classes/Conexao.php';
+require_once '../model/classes/Gerenciador.php';
+require_once '../model/classes/ValidaUsuario.php';
+$email = 'geovane@geovane.com';//$_POST['email'];
 
-$usuario = new Usuario();
-$usuario->setEmail('emaill');
+try {
 
-$dao = new DAOUsuario();
-$retorno = $dao->getEmail($usuario);
 
-if($retorno){
-    $res = $dao->deletar($retorno->id);
-    if ($res)
-        echo "usuario deletado com sucesso";
-    else
-        echo "Não foi possivel deletar o usuario";
+   $retorno = Gerenciador::deletar($email);
+    echo $retorno;
 
-}else{
-    echo "Usuario não encontrado";
+}catch (Exception $e){
+    die ($e->getMessage());
+
 }

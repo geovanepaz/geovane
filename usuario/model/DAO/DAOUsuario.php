@@ -1,7 +1,6 @@
 <?php
 
 
-
 class DAOUsuario
 {
 
@@ -40,8 +39,7 @@ class DAOUsuario
 
     }
 
-    public function getEmail(Usuario $usuario){
-        $email = $usuario->getEmail();
+    public function getEmail($email){
 
         $sql = "Select id,nome,email,senha FROM usuario WHERE email = :email";
         $stmt = $this->conexao->prepare($sql);
@@ -74,7 +72,7 @@ class DAOUsuario
 
         }else{
             $error = $stmt->errorInfo();
-            throw new Exception($error[2]);
+            throw new Exception($error);
         }
 
         return false;
@@ -83,7 +81,29 @@ class DAOUsuario
     }
 
     public function editar(Usuario $usuario){
-        $sql = '';
+        $id = $usuario->getId();
+        $nome = $usuario->getNome();
+        $email = $usuario->getEmail();
+        $senha = $usuario->getSenha();
+
+        $sql = 'UPDATE usuario SET nome = :nome, email = :email, senha = :senha WHERE id = :id';
+        $stmt = $this->conexao->prepare($sql);
+
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->bindParam(':nome', $nome, PDO::PARAM_STR);
+        $stmt->bindParam('email', $email, PDO::PARAM_STR);
+        $stmt->bindParam(':senha', $senha, PDO::PARAM_STR);
+
+        if($stmt->execute()){
+            if($stmt->rowCount())
+                return true;
+        }else{
+            $error = $stmt->errorInfo();
+            throw new Exception($error[2]);
+        }
+
+        return false;
+
 
     }
 
